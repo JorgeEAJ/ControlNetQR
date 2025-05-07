@@ -13,7 +13,6 @@ class QrController extends Controller
     
     public function procesarQr(Request $request)
     {
-        \Log::info('QR recibido:', $request->all());
         $numeroControl = $request->input('qr_code');
 
         $usuario = Usuario::where('numero_control', $numeroControl)->first();
@@ -37,7 +36,7 @@ class QrController extends Controller
                 'hora_salida' => null, 
             ]);
 
-            return response()->json(['mensaje' => 'Entrada registrada']);
+            return response()->json(['mensaje' => 'Entrada registrada'])->redirect()->route('panel.admin');
         } elseif ($asistencia->hora_salida == null) {
             $entrada = Carbon::parse($asistencia->hora_entrada);
             $salida = Carbon::now();
@@ -50,7 +49,7 @@ class QrController extends Controller
             $horasServicio->actualizado_en = now();
             $horasServicio->save();
 
-            return response()->json(['mensaje' => 'Salida registrada. ' . round($horas, 2) . ' horas sumadas.']);
+            return response()->json(['mensaje' => 'Salida registrada. ' . round($horas, 2) . ' horas sumadas.'])->redirect()->route('panel.admin');
         }
 
         return response()->json(['mensaje' => 'Ya registraste entrada y salida hoy.']);

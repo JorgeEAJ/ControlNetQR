@@ -32,7 +32,7 @@
                 </div>
                 <div class="mb-6">
                     <x-ui.label for="password">Contraseña</x-ui.label>
-                    <x-ui.input type="password" id="password" name="password" required />
+                    <x-ui.password-input id="password" name="password" required/>
                 </div>
                 <x-ui.button>Entrar</x-ui.button>
             </form>

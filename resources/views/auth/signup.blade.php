@@ -22,7 +22,7 @@
 
     <div class="mb-4">
       <x-ui.label>Nombre completo</x-ui.label>
-      <x-ui.input type="text" placeholder="Ingresa tu nombre" name="numero_control" required />
+      <x-ui.input type="text" placeholder="Ingresa tu nombre" name="nombre" required />
     </div>
 
     <div class="mb-4">
@@ -37,7 +37,7 @@
   
     <div class="mb-4">
       <x-ui.label>Contraseña</x-ui.label>
-      <x-ui.input type="password" placeholder="Ingresa tu contraseña" name="password" required />
+      <x-ui.password-input id="password" name="password" required/>
     </div>
 
     <div class="mb-6">
@@ -48,7 +48,9 @@
     </x-ui.select>
     </div>
 
+    <div class="mb-4">
     <x-ui.button>Registrar</x-ui.button>
+    </div>
 
     <div class="mb-4">
         <a href="{{ route('panel.admin') }}" class="mt-4 w-full inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,box-shadow]

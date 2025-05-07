@@ -19,9 +19,9 @@ class UsuarioController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:100',
-            'numero_control' => 'required|string|unique:usuarios',
-            'correo' => 'required|email|unique:usuarios',
-            'password' => 'required|string|min:6',
+            'numero_control' => 'required|string|unique:usuarios,numero_control,' . $id,
+            'correo' => 'required|email|unique:usuarios,correo,' . $id,
+            'password' => 'nullable|string|min:6',
             'estado' => 'required|in:activo,inactivo',
         ]);
 
@@ -29,7 +29,10 @@ class UsuarioController extends Controller
         $usuario->nombre = $request->nombre;
         $usuario->numero_control = $request->numero_control;
         $usuario->correo = $request->correo;
-        $usuario->password = Hash::make($request->password);
+
+        if ($request->filled('password')) {
+            $usuario->password = Hash::make($request->password);
+        }
         $usuario->estado = $request->estado;
         $usuario->save();
 
