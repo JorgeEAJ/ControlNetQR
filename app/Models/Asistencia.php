@@ -10,7 +10,7 @@ class Asistencia extends Model
     use HasFactory;
 
     protected $fillable = [
-        'usuario_id',
+        'numero_control',
         'fecha',
         'hora_entrada',
         'hora_salida',

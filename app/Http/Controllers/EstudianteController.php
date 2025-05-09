@@ -4,26 +4,38 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Carbon\Carbon;
 
 
 class EstudianteController extends Controller
 {
+
 public function index() {
-
     $usuario = Auth::user();
-    
-    // Consulta tus datos desde las tablas relacionadas
-    $horas = \App\Models\HorasServicio::where('usuario_id', $usuario->id)->first();
-    $asistencias = \App\Models\Asistencia::where('usuario_id', $usuario->id)->orderByDesc('fecha')->limit(10)->get();
 
-    $total_horas = $horas->horas_cumplidas ?? 0;
+    $asistencias = \App\Models\Asistencia::where('numero_control', $usuario->numero_control)->orderByDesc('fecha')->get();
+
+    // Calcular total de horas a partir de las asistencias
+$total_horas = 0;
+foreach ($asistencias as $asistencia) {
+    if ($asistencia->hora_entrada && $asistencia->hora_salida) {
+        $entrada = Carbon::parse($asistencia->fecha . ' ' . $asistencia->hora_entrada);
+        $salida = Carbon::parse($asistencia->fecha . ' ' . $asistencia->hora_salida);
+
+         $diferencia = $salida->diffInMinutes($entrada,true) / 60;
+
+        if ($salida->greaterThan($entrada)) {
+            $total_horas += $diferencia;// convertir a horas
+        }
+    }
+}
+$total_horas = round($total_horas, 2);
     $num_asistencias = $asistencias->count();
 
     $qr = QrCode::size(200)->generate($usuario->numero_control); 
 
-
     return view('student.panel_estudiante', [
-        'id' => $usuario->id,
+        'numero_control' => $usuario->numero_control,
         'nombre' => $usuario->nombre,
         'total_horas' => $total_horas,
         'num_asistencias' => $num_asistencias,

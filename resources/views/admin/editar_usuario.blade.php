@@ -17,7 +17,7 @@
     </div>
 @endif
 
-    <form action="{{ route('usuarios.update', $usuario->id) }}" method="POST" class="bg-white dark:bg-black p-8 rounded-xl shadow-md w-96">
+    <form action="{{ route('usuarios.update', $usuario->numero_control) }}" method="POST" class="bg-white dark:bg-black p-8 rounded-xl shadow-md w-96">
         @csrf
         @method('PUT')
 
@@ -42,6 +42,15 @@
             <x-ui.label>Contraseña</x-ui.label>
             <x-ui.password-input id="password" name="password"/>
           </div>
+
+          <div class="mb-4">
+        <x-ui.label>Departamento</x-ui.label>
+        <x-ui.select name="departamento_id" required>
+            @foreach($departamentos as $dep)
+                <option value="{{ $dep->id }}" {{ $usuario->departamento_id == $dep->id ? 'selected' : '' }}>{{ $dep->nombre }}</option>
+            @endforeach
+        </x-ui.select>
+        </div>
 
         <div class="mb-4">
             <x-ui.label>Estado</x-ui.label>

@@ -40,19 +40,28 @@
       <x-ui.password-input id="password" name="password" required/>
     </div>
 
-    <div class="mb-6">
+    <div class="mb-4">
       <x-ui.label>Rol</x-ui.label>
-      <x-ui.select name="rol" required>
-        <option value="estudiante">Estudiante</option>
-        <option value="admin">Administrador</option>
-    </x-ui.select>
+      <x-ui.select name="rol_id" required>
+  @foreach($roles as $rol)
+    <option value="{{ $rol->id }}">{{ $rol->nombre }}</option>
+  @endforeach
+</x-ui.select>
     </div>
+
+    <div class="mb-4">
+  <x-ui.label>Departamento</x-ui.label>
+  <x-ui.select name="departamento_id" required>
+    @foreach($departamentos as $dep)
+      <option value="{{ $dep->id }}">{{ $dep->nombre }}</option>
+    @endforeach
+  </x-ui.select>
+</div>
+
 
     <div class="mb-4">
     <x-ui.button>Registrar</x-ui.button>
-    </div>
 
-    <div class="mb-4">
         <a href="{{ route('panel.admin') }}" class="mt-4 w-full inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,box-shadow]
          [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]
          aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-white bg-black dark:text-black text-white shadow-xs hover:bg-white/90 h-9 px-4 py-2">

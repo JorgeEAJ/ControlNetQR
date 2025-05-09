@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Rol;
+use App\Models\Departamento;
 use App\Models\Usuario;
 
 class AuthController extends Controller
@@ -28,7 +30,7 @@ class AuthController extends Controller
             // Guardar en sesión
             Auth::login($usuario); 
 
-            if ($usuario->rol === 'admin') {
+            if ($usuario->rol_id === 1) {
                 return redirect()->route('panel.admin');
             } else {
                 return redirect()->route('panel.estudiante');
@@ -47,7 +49,9 @@ class AuthController extends Controller
     }
     public function showSignupForm()
 {
-    return view('auth.signup');
+    $roles = Rol::all();
+    $departamentos = Departamento::all();
+    return view('auth.signup', compact('roles', 'departamentos'));
 }
 
 public function signup(Request $request)
@@ -57,15 +61,19 @@ public function signup(Request $request)
         'numero_control' => 'required|string|unique:usuarios',
         'correo' => 'required|email|unique:usuarios',
         'password' => 'required|string|min:6',
-        'rol' => 'required|in:estudiante,admin',
+        'rol_id' => 'required|exists:roles,id',
+        'departamento_id' => 'required|exists:departamentos,id',
     ]);
+
+    $rol = Rol::where('nombre', $request->rol_id)->first();
 
     $usuario = Usuario::create([
         'nombre' => $request->nombre,
         'numero_control' => $request->numero_control,
         'correo' => $request->correo,
         'password' => Hash::make($request->password),
-        'rol' => $request->rol,
+        'rol_id' => $request->rol_id,
+        'departamento_id' => $request->departamento_id,
         'estado' => 'activo',
         'creado_en' => now(),
     ]);

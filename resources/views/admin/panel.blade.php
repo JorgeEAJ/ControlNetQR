@@ -58,8 +58,8 @@
                 <td class="py-3 px-4">{{ $estudiante->ultimo_registro ?? 'Sin registro' }}</td>
                 <td class="py-3 px-4">{{ $estudiante->estado }}</td>
                 <td class="py-3 px-4 flex flex-wrap gap-2">
-                  <a href="{{ route('usuarios.edit', $estudiante->id) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white py-1 px-3 rounded text-sm">Editar</a>
-                  <form action="{{ route('usuarios.destroy', $estudiante->id) }}" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar a este usuario?')">
+                  <a href="{{ route('usuarios.edit', $estudiante->numero_control) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white py-1 px-3 rounded text-sm">Editar</a>
+                  <form action="{{ route('usuarios.destroy', $estudiante->numero_control) }}" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar a este usuario?')">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded text-sm">Eliminar</button>

@@ -12,15 +12,15 @@ class AdminController extends Controller
     public function admin()
     {
         $usuario = Auth::user();
-        if ($usuario->rol !== 'admin') {
+        if (!$usuario->rol->nombre === 'admin') {
             return redirect()->route('login');
         }
 
         // Total de estudiantes
-        $totalEstudiantes = Usuario::where('rol', 'estudiante')->count();
+        $totalEstudiantes = Usuario::where('rol_id', 2)->count();
 
         // Historial del admin
-        $asistencias = Asistencia::where('usuario_id', $usuario->id)
+        $asistencias = Asistencia::where('numero_control', $usuario->numero_control)
             ->orderByDesc('fecha')
             ->limit(10)
             ->get();
@@ -30,22 +30,29 @@ class AdminController extends Controller
             if ($asis->hora_entrada && $asis->hora_salida) {
                 $entrada = strtotime($asis->hora_entrada);
                 $salida = strtotime($asis->hora_salida);
+                
                 return $carry + (($salida - $entrada) / 3600);
             }
             return $carry;
         }, 0);
-
+        dd();
         // Asistencias de hoy
         $asistenciasHoy = Asistencia::whereDate('fecha', now())->count();
 
         // Listado de estudiantes con sus horas y último registro
         $listadoEstudiantes = DB::table('usuarios as u')
-            ->leftJoin('horas_servicio as hs', 'u.id', '=', 'hs.usuario_id')
-            ->leftJoin('asistencias as a', 'u.id', '=', 'a.usuario_id')
-            ->select('u.id','u.nombre', 'hs.horas_cumplidas', DB::raw('MAX(a.fecha) as ultimo_registro'), 'u.estado')
-            ->where('u.rol', 'estudiante')
-            ->groupBy('u.id', 'u.nombre', 'hs.horas_cumplidas', 'u.estado')
-            ->get();
+        ->leftJoin('asistencias as a', 'u.numero_control', '=', 'a.numero_control')
+        ->select(
+        'u.numero_control',
+        'u.nombre',
+        DB::raw('ROUND(SUM(TIMESTAMPDIFF(MINUTE, a.hora_entrada, a.hora_salida))/60, 2) as horas_cumplidas'),
+        DB::raw('MAX(a.fecha) as ultimo_registro'),
+        'u.estado'
+        )
+        ->where('u.rol_id', 2)
+        ->groupBy('u.numero_control', 'u.nombre', 'u.estado')
+        ->get();
+
 
         return view('admin.panel', compact(
             'totalEstudiantes',

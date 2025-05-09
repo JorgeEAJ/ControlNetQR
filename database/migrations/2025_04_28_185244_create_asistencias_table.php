@@ -9,14 +9,17 @@ class CreateAsistenciasTable extends Migration
     public function up()
     {
         Schema::create('asistencias', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('usuario_id');
-            $table->date('fecha');
-            $table->time('hora_entrada')->nullable();
-            $table->time('hora_salida')->nullable();
+    $table->id();
+    $table->string('numero_control', 100); // Clave foránea basada en texto
+    $table->date('fecha');
+    $table->time('hora_entrada')->nullable();
+    $table->time('hora_salida')->nullable();
 
-            $table->foreign('usuario_id')->references('id')->on('usuarios')->onDelete('cascade');
-        });
+    $table->foreign('numero_control')
+          ->references('numero_control')
+          ->on('usuarios')
+          ->onDelete('cascade');
+});
     }
 
     public function down()
