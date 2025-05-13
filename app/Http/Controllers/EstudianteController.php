@@ -32,7 +32,10 @@ foreach ($asistencias as $asistencia) {
 $total_horas = round($total_horas, 2);
     $num_asistencias = $asistencias->count();
 
-    $qr = QrCode::size(200)->generate($usuario->numero_control); 
+     $qr = QrCode::format('svg') // Puedes cambiar a 'png' si prefieres imagen
+                ->size(250)      // Puedes aumentar el tamaño si lo quieres más grande
+                ->generate($usuario->numero_control);
+    
 
     return view('student.panel_estudiante', [
         'numero_control' => $usuario->numero_control,
@@ -43,5 +46,4 @@ $total_horas = round($total_horas, 2);
         'qr' => $qr
     ]);
 }
-
 }

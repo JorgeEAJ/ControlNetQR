@@ -56,10 +56,47 @@
       </button>
     </form>
 
-    <div class="flex justify-center my-6">
+<div class="flex flex-col items-center my-6">
+  <div class="bg-white p-4 rounded-2xl shadow-lg border border-gray-300">
+    <div id="qr-svg">
       {!! $qr !!}
     </div>
   </div>
+  <button onclick="descargarPNG()" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+    Descargar QR
+  </button>
+</div>
+<script>
+
+function descargarPNG() {
+  const svgElement = document.querySelector('#qr-svg svg');
+  const svgData = new XMLSerializer().serializeToString(svgElement);
+  const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+  const DOMURL = window.URL || window.webkitURL || window;
+
+  const url = DOMURL.createObjectURL(svgBlob);
+  const image = new Image();
+  image.onload = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 500; // más resolución
+    canvas.height = 500;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+    const pngUrl = canvas.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.href = pngUrl;
+    link.download = "{{ $numero_control }}_qr.png";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    DOMURL.revokeObjectURL(url);
+  };
+  image.src = url;
+}
+</script>
 
 </body>
 </html>

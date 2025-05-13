@@ -12,12 +12,16 @@ class AdminController extends Controller
     public function admin()
     {
         $usuario = Auth::user();
-        if (!$usuario->rol->nombre === 'admin') {
+        if ($usuario->rol->nombre !== 'admin') {
             return redirect()->route('login');
         }
+        $departamento = $usuario->departamento_id;
 
         // Total de estudiantes
-        $totalEstudiantes = Usuario::where('rol_id', 2)->count();
+        $totalEstudiantes = Usuario::where('rol_id', 2)
+                           ->where('estado', 'activo')
+                           ->where('departamento_id', $departamento)
+                           ->count();
 
         // Historial del admin
         $asistencias = Asistencia::where('numero_control', $usuario->numero_control)
@@ -26,18 +30,13 @@ class AdminController extends Controller
             ->get();
 
         $num_asistencias = $asistencias->count();
-        $total_horas = $asistencias->reduce(function ($carry, $asis) {
-            if ($asis->hora_entrada && $asis->hora_salida) {
-                $entrada = strtotime($asis->hora_entrada);
-                $salida = strtotime($asis->hora_salida);
-                
-                return $carry + (($salida - $entrada) / 3600);
-            }
-            return $carry;
-        }, 0);
-        dd();
+        
         // Asistencias de hoy
-        $asistenciasHoy = Asistencia::whereDate('fecha', now())->count();
+        $asistenciasHoy = Asistencia::whereDate('fecha', now())
+        ->whereIn('numero_control', Usuario::where('estado', 'activo')
+            ->where('departamento_id', $departamento)
+            ->pluck('numero_control'))
+        ->count();
 
         // Listado de estudiantes con sus horas y último registro
         $listadoEstudiantes = DB::table('usuarios as u')
@@ -50,6 +49,7 @@ class AdminController extends Controller
         'u.estado'
         )
         ->where('u.rol_id', 2)
+        ->where('departamento_id', $departamento)
         ->groupBy('u.numero_control', 'u.nombre', 'u.estado')
         ->get();
 
@@ -59,7 +59,6 @@ class AdminController extends Controller
             'asistenciasHoy',
             'asistencias',
             'num_asistencias',
-            'total_horas',
             'listadoEstudiantes'
         ));
     }

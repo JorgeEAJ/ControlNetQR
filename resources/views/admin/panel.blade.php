@@ -7,6 +7,22 @@
   @vite('resources/css/app.css')
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen">
+  @if (session('success'))
+    <div class="bg-green-500 text-white p-2 rounded mb-4">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if (session('info'))
+    <div class="bg-blue-800 text-white p-2 rounded mb-4">
+        {{ session('info') }}
+    </div>
+@endif
+@if (session('error'))
+    <div class="bg-red-500 text-white p-2 rounded mb-4">
+        {{ session('info') }}
+    </div>
+@endif
   <div class="flex min-h-screen">
     @include('components.sidebar')
 
@@ -21,18 +37,14 @@
 
         <!-- Resumen General -->
         <h2 class="text-xl font-bold mb-6">Resumen General</h2>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        
+        <div class="flex justify-center grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div class="bg-blue-50 dark:bg-blue-950 p-6 rounded-lg shadow-md text-center">
-            <h3 class="font-semibold text-lg">Estudiantes Registrados</h3>
+            <h3 class="font-semibold text-lg">Estudiantes Activos</h3>
             <p class="text-2xl font-bold text-blue-600 dark:text-blue-400"><?php echo $totalEstudiantes; ?></p>
           </div>
           <div class="bg-blue-50 dark:bg-blue-950 p-6 rounded-lg shadow-md text-center">
-            <h3 class="font-semibold text-lg">Horas Totales Registradas</h3>
-            <p class="text-2xl font-bold text-blue-600 dark:text-blue-400"><?php echo $total_horas; ?></p>
-          </div>
-          <div class="bg-blue-50 dark:bg-blue-950 p-6 rounded-lg shadow-md text-center">
-            <h3 class="font-semibold text-lg">Asistencias Hoy</h3>
+            <h3 class="font-semibold text-lg">Asistencias del Dia</h3>
             <p class="text-2xl font-bold text-blue-600 dark:text-blue-400"><?php echo $asistenciasHoy; ?></p>
           </div>
         </div>

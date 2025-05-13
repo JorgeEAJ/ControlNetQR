@@ -33,17 +33,16 @@ class QrController extends Controller
                 'hora_salida' => null, 
             ]);
 
-            return redirect()->back()->with('success', 'Entrada registrada');
+            return redirect()->route('panel.admin')->with('success', 'Hora de entrada registrada correctamente');
         } elseif ($asistencia->hora_salida == null) {
             $entrada = Carbon::parse($asistencia->hora_entrada);
             $salida = Carbon::now();
-            $horas = $entrada->diffInMinutes($salida) / 60;
 
             $asistencia->update(['hora_salida' => $salida]);
 
-            return redirect()->back()->with('success', 'Salida registrada. ' . round($horas, 2) . ' horas calculadas.');
+            return redirect()->route('panel.admin')->with('success', 'Hora de salida registrada correctamente');
         }
 
-        return redirect()->back()->with('info', 'Ya registraste entrada y salida hoy.');
+        return redirect()->route('panel.admin')->with('info', 'Ya registraste tu entrada y salida el día de hoy');
     }
 }
