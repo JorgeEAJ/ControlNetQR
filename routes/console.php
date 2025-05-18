@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Foundation\Inspiring;
-use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schedule;
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->purpose('Display an inspiring quote');
+    // Registrar faltas a las 6:00 AM todos los días
+    Schedule::command('faltas:registrar')->weekdays()->dailyAt('06:00');
+
+    // Revisar faltas a las 6:10 AM todos los días
+    Schedule::command('faltas:revisar')->weekdays()->dailyAt('06:10');

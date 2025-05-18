@@ -7,25 +7,26 @@
   @vite('resources/css/app.css')
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen">
+
+    @include('components.sidebar')
+
+<div id="main-content" class="transition-all duration-300 ml-0 min-h-screen flex flex-col">
   @if (session('success'))
-    <div class="bg-green-500 text-white p-2 rounded mb-4">
+    <div class="bg-green-500 text-white p-2 rounded mb-4 text-center">
         {{ session('success') }}
     </div>
 @endif
 
 @if (session('info'))
-    <div class="bg-blue-800 text-white p-2 rounded mb-4">
+    <div class="bg-blue-800 text-white p-2 rounded mb-4 text-center">
         {{ session('info') }}
     </div>
 @endif
 @if (session('error'))
-    <div class="bg-red-500 text-white p-2 rounded mb-4">
+    <div class="bg-red-500 text-white p-2 rounded mb-4 text-center">
         {{ session('info') }}
     </div>
 @endif
-  <div class="flex min-h-screen">
-    @include('components.sidebar')
-
     <!-- Main Content -->
     <main class="flex-1 p-6">
       <!-- Contenido -->
@@ -84,6 +85,6 @@
         </div>
       </section>
     </main>
-  </div>
+    </div>
 </body>
 </html>

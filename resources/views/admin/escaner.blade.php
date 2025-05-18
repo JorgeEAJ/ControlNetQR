@@ -13,33 +13,12 @@
     <main class="flex-1 p-6">
       <h1 class="text-xl font-bold text-center my-4">Escanea tu código QR</h1>
 
-      <form id="qrForm" action="{{ route('procesar.qr') }}" method="POST" class="w-full max-w-sm mx-auto">
-        @csrf
-        <input
-          type="text"
-          name="qr_code"
-          id="qr_code_input"
-          autofocus
-          autocomplete="off"
-          class="w-full p-4 rounded border border-gray-300 shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Escanea el código aquí"
-        >
-      </form>
-
-      <div id="result" class="text-center text-green-600 font-semibold mt-4"></div>
-
-      <script>
-        const input = document.getElementById('qr_code_input');
-        input.addEventListener('input', function () {
-          // Esperar unos milisegundos para asegurar que se capturó todo el código
-          setTimeout(() => {
-            if (input.value.trim() !== '') {
-              document.getElementById('qrForm').submit();
-            }
-          }, 200);
-        });
-      </script>
+      {{-- Se incluye el componente del lector QR --}}
+      @include('components.qr-scanner')
     </main>
   </div>
+
+  {{-- Se insertan los scripts del componente --}}
+  @stack('scripts')
 </body>
 </html>

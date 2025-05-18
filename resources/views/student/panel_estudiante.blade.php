@@ -48,55 +48,23 @@
         </tbody>
       </table>
     </div>
+<div class="flex flex-col items-center my-8">
+  <div class="bg-white p-6 rounded-3xl shadow-2xl border-2 border-blue-500 relative w-fit">
+    <h2 class="text-center text-lg font-semibold text-blue-600 mb-4">Tu Código QR</h2>
 
-    <form action="{{ route('logout') }}" method="POST" class="mt-6">
+    <div id="qr-svg" class="bg-gray-50 p-4 rounded-xl border border-dashed border-blue-300">
+      {!! $qr !!}
+    </div>
+
+    <div class="absolute top-0 right-0 bg-blue-500 text-white text-xs px-3 py-1 rounded-bl-xl rounded-tr-2xl">
+      Escanea
+    </div>
+  </div>
+  <form action="{{ route('logout') }}" method="POST" class="mt-6">
       @csrf
       <button type="submit" class="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded transition duration-200">
         Cerrar sesión
       </button>
     </form>
-
-<div class="flex flex-col items-center my-6">
-  <div class="bg-white p-4 rounded-2xl shadow-lg border border-gray-300">
-    <div id="qr-svg">
-      {!! $qr !!}
-    </div>
-  </div>
-  <button onclick="descargarPNG()" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
-    Descargar QR
-  </button>
-</div>
-<script>
-
-function descargarPNG() {
-  const svgElement = document.querySelector('#qr-svg svg');
-  const svgData = new XMLSerializer().serializeToString(svgElement);
-  const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
-  const DOMURL = window.URL || window.webkitURL || window;
-
-  const url = DOMURL.createObjectURL(svgBlob);
-  const image = new Image();
-  image.onload = () => {
-    const canvas = document.createElement('canvas');
-    canvas.width = 500; // más resolución
-    canvas.height = 500;
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-
-    const pngUrl = canvas.toDataURL('image/png');
-    const link = document.createElement('a');
-    link.href = pngUrl;
-    link.download = "{{ $numero_control }}_qr.png";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    DOMURL.revokeObjectURL(url);
-  };
-  image.src = url;
-}
-</script>
-
 </body>
 </html>

@@ -1,9 +1,8 @@
 <!-- Sidebar -->
 <aside id="sidebar" class="dark:text-white w-64 h-screen flex flex-col bg-white dark:bg-gray-800 shadow-lg transition-transform transform fixed top-0 left-0 z-40 -translate-x-full">
-
     <!-- Logo -->
-    <div class="p-6 text-center border-b border-gray-200 dark:border-gray-700">
-      <h2 class="text-xl font-bold">Logo</h2>
+    <div class="pl-16 pr-4 py-6 text-center border-b border-gray-200 dark:border-gray-700">
+      <img src="{{ asset('images/TecNM_logo.png') }}" alt="Logo" class="mx-auto h-25">
     </div>
   
     <!-- Menú de navegación -->
@@ -28,6 +27,12 @@
           Escáner
         </button>
       </form>
+      <form action="{{ route('faltas.index') }}" method="GET">
+        @csrf
+        <button type="submit" class="w-full text-left px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
+          Faltas
+        </button>
+      </form>
     </nav>
   
     <!-- Menú de usuario -->
@@ -43,7 +48,7 @@
       </button>
   
       <div id="user-menu" class="hidden mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded shadow-md">
-        <a href="#" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Perfil</a>
+        <a href="{{ route('admin.perfil') }}" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Perfil</a>
         <form action="{{ route('logout') }}" method="POST">
           @csrf
           <button type="submit" class="block w-full text-left px-4 py-2 bg-red-600 text-white rounded hover:bg-red-500 active:bg-red-700 transition-colors">
@@ -55,15 +60,23 @@
   </aside>
   
   <!-- Botón flotante para abrir el sidebar -->
-  <button onclick="toggleSidebar()" class="p-3 text-2xl fixed top-4 left-4 z-50 dark:bg-gray-800 bg-gray-400 text-white rounded">
+  <button onclick="toggleSidebar()" class="p-3 text-2xl fixed top-6 left-6 z-50 dark:bg-gray-800 bg-gray-400 text-white rounded">
     ☰
   </button>
   
   <script>
     function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      sidebar.classList.toggle('-translate-x-full');
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('main-content');
+
+    sidebar.classList.toggle('-translate-x-full');
+
+    if (sidebar.classList.contains('-translate-x-full')) {
+      mainContent.classList.remove('ml-64');
+    } else {
+      mainContent.classList.add('ml-64');
     }
+  }
   
     function toggleUserMenu() {
       const menu = document.getElementById('user-menu');
