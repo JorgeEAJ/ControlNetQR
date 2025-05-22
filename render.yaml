@@ -50,8 +50,6 @@ services:
         value: defaultdb
       - key: DB_USERNAME
         value: avnadmin
-      - key: DB_SSL
-        value: true
 
       - key: BROADCAST_CONNECTION
         value: log
@@ -84,8 +82,6 @@ services:
         value: 587
       - key: MAIL_USERNAME
         value: 21670012@itiguala.edu.mx
-      - key: MAIL_PASSWORD
-        value: gfqepuxsoasdhibp
       - key: MAIL_ENCRYPTION
         value: tls
       - key: MAIL_FROM_ADDRESS
