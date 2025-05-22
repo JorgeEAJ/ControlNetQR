@@ -50,8 +50,6 @@ services:
         value: defaultdb
       - key: DB_USERNAME
         value: avnadmin
-      - key: DB_PASSWORD
-        value: AVNS_SNtHHYyVrvncVUrzBcw
       - key: DB_SSL
         value: true
 
