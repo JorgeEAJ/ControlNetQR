@@ -50,8 +50,6 @@
     </div>
 <div class="flex flex-col items-center my-8">
   <div class="bg-white p-6 rounded-3xl shadow-2xl border-2 border-blue-500 relative w-fit">
-    <h2 class="text-center text-lg font-semibold text-blue-600 mb-4">Tu Código QR</h2>
-
     <div id="qr-svg" class="bg-gray-50 p-4 rounded-xl border border-dashed border-blue-300">
       {!! $qr !!}
     </div>

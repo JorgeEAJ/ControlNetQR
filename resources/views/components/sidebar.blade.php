@@ -2,7 +2,7 @@
 <aside id="sidebar" class="dark:text-white w-64 h-screen flex flex-col bg-white dark:bg-gray-800 shadow-lg transition-transform transform fixed top-0 left-0 z-40 -translate-x-full">
     <!-- Logo -->
     <div class="pl-16 pr-4 py-6 text-center border-b border-gray-200 dark:border-gray-700">
-      <img src="{{ asset('images/TecNM_logo.png') }}" alt="Logo" class="mx-auto h-25">
+    <img src="{{ asset('images/TecNM_logo.png') }}" alt="Logo" class="h-24 w-auto drop-shadow-md">
     </div>
   
     <!-- Menú de navegación -->

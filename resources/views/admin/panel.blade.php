@@ -24,7 +24,7 @@
 @endif
 @if (session('error'))
     <div class="bg-red-500 text-white p-2 rounded mb-4 text-center">
-        {{ session('info') }}
+        {{ session('error') }}
     </div>
 @endif
     <!-- Main Content -->

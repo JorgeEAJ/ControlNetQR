@@ -21,7 +21,7 @@
         @csrf
         @method('PUT')
 
-        <h2 class="text-2xl font-bold mb-6 text-center text-blue-600">Editar Usuario</h2>
+        <h2 class="text-2xl font-bold mb-6 text-center text-blue-600">Editar Estudiante</h2>
 
         <div class="mb-4">
             <x-ui.label>Nombre</x-ui.label>
